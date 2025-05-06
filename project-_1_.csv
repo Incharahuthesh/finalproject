@@ -1,0 +1,53 @@
+In [8]:
+import pandas as pd
+import time
+
+# Load original data from correct file path
+"full_data = pd.read_csv(r""C:\\Users\\NIHAR\\OneDrive\\Documents\\churn-bigml-20.csv"")"
+
+"# Simulate daily stream (e.g., 100 new rows every 10 seconds)"
+"for i in range(0, len(full_data), 100):"
+chunk = full_data.iloc[i:i+100]
+"chunk.to_csv(""realtime_input.csv"", index=False)"
+"print(f""Streamed chunk {i} to {i+100}"")"
+time.sleep(10) # Pause to simulate streaming (10 seconds)
+Streamed chunk 0 to 100
+Streamed chunk 100 to 200
+Streamed chunk 200 to 300
+Streamed chunk 300 to 400
+Streamed chunk 400 to 500
+Streamed chunk 500 to 600
+Streamed chunk 600 to 700
+In [11]:
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.preprocessing import LabelEncoder
+import joblib
+
+# Load data
+"full_data = pd.read_csv(r""C:\\Users\\NIHAR\\OneDrive\\Documents\\churn-bigml-20.csv"")"
+
+"# Optional: drop irrelevant columns (like customer ID, etc.)"
+"# full_data.drop(['CustomerID'], axis=1, inplace=True)"
+
+# Encode categorical features
+for column in full_data.columns:
+"if full_data[column].dtype == ""object"":"
+le = LabelEncoder()
+full_data[column] = le.fit_transform(full_data[column])
+
+# Split features and target
+"X = full_data.drop(""Churn"", axis=1)"
+"y = full_data[""Churn""]"
+
+# Train the model
+model = DecisionTreeClassifier()
+"model.fit(X, y)"
+
+# Save the model
+"joblib.dump(model, ""churn_model.pkl"")"
+
+"print(""Model trained and saved successfully!"")"
+Model trained and saved successfully!
+In [ ]:
+
